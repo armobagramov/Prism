@@ -1,19 +1,21 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  // Fix: Property 'cwd' does not exist on type 'Process'
-  const env = loadEnv(mode, (process as any).cwd(), '');
-  return {
-    plugins: [react()],
-    base: './', // Ensures relative paths for assets on GitHub Pages
-    define: {
-      // Safely replace process.env with a specific object containing keys we expect
-      'process.env': {
-        API_KEY: env.API_KEY || '',
-        NODE_ENV: mode
-      }
-    }
-  };
+export default defineConfig({
+  plugins: [react()],
+  // Base path set to './' ensures assets are loaded relatively.
+  // This is CRITICAL for GitHub Pages where the app might live at https://user.github.io/repo-name/
+  base: './',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+  },
+  define: {
+    // Polyfill process.env to prevent "process is not defined" crashes in the browser
+    'process.env': {},
+    // Polyfill global for some older libraries that might assume Node.js environment
+    global: 'window',
+  }
 });

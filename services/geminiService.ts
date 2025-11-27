@@ -1,8 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
-import { Topic, Argument } from "../types";
+import { Topic } from "../types";
 
-// Helper to get the client safely.
-// This prevents the app from crashing at startup if process.env.API_KEY is undefined.
+// Helper to safely get the client instance only when needed
 const getAiClient = () => {
   const apiKey = process.env.API_KEY;
   if (!apiKey) return null;
@@ -12,8 +11,9 @@ const getAiClient = () => {
 export const generateTopicSummary = async (topic: Topic): Promise<string> => {
   const ai = getAiClient();
   if (!ai) {
-    console.warn("API Key missing. AI features disabled.");
-    return "AI insights unavailable. Please configure your API_KEY.";
+    console.warn("API Key missing. Please configure process.env.API_KEY.");
+    // Return a mock response or empty string to prevent UI breakage
+    return "AI insights are unavailable in demo mode. Please configure an API Key to enable live summaries.";
   }
 
   try {

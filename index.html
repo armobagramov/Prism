@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prism - See Every Side</title>
     
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS (CDN approach ensures design works in Preview and GitHub Pages without complex build CSS pipeline) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Fonts -->
@@ -21,13 +21,13 @@
             },
             colors: {
               prism: {
-                dark: '#0a0a0a', 
-                card: '#171717', 
-                text: '#e5e5e5', 
-                accent: '#38bdf8', 
-                pro: '#10b981', 
-                con: '#f43f5e', 
-                nuance: '#a855f7', 
+                dark: '#0a0a0a', // Deep black/grey
+                card: '#171717', // Neutral 900
+                text: '#e5e5e5', // Neutral 200
+                accent: '#38bdf8', // Sky 400
+                pro: '#10b981', // Emerald 500
+                con: '#f43f5e', // Rose 500
+                nuance: '#a855f7', // Purple 500
               }
             },
             animation: {
@@ -41,33 +41,51 @@
       body {
         transition: background-color 0.3s ease, color 0.3s ease;
       }
+      
+      /* Complex Grey Gradient for Dark Mode */
       .dark body {
         background: radial-gradient(circle at 50% 0%, #2a2a2a 0%, #0a0a0a 60%, #050505 100%);
         color: #e5e5e5;
       }
+
+      /* Clean Light Mode */
       body:not(.dark) {
         background-color: #f8fafc;
         color: #0f172a;
       }
-      ::-webkit-scrollbar { width: 6px; height: 6px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #52525b; border-radius: 3px; }
-      ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #52525b; 
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #71717a; 
+      }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "d3": "https://aistudiocdn.com/d3@^7.9.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
-  }
-}
-</script>
+    
+    <!-- Import Map for AI Studio Preview functionality -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "d3": "https://aistudiocdn.com/d3@^7.9.0",
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+        "vite": "https://aistudiocdn.com/vite@^7.2.4",
+        "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+      }
+    }
+    </script>
 </head>
   <body>
     <div id="root"></div>
