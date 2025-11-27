@@ -14,17 +14,31 @@ export const TopicGraph: React.FC<TopicGraphProps> = ({ onTopicSelect, darkMode 
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
-    const handleResize = () => {
+    const updateDimensions = () => {
       if (wrapperRef.current) {
-        setDimensions({
-          width: wrapperRef.current.clientWidth,
-          height: wrapperRef.current.clientHeight,
-        });
+        const { clientWidth, clientHeight } = wrapperRef.current;
+        if (clientWidth > 0 && clientHeight > 0) {
+            setDimensions({
+              width: clientWidth,
+              height: clientHeight,
+            });
+        }
       }
     };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+
+    // Initial check
+    updateDimensions();
+
+    // Resize listener
+    window.addEventListener('resize', updateDimensions);
+    
+    // Safety check loop for slow loading layouts
+    const interval = setInterval(updateDimensions, 500);
+
+    return () => {
+        window.removeEventListener('resize', updateDimensions);
+        clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {

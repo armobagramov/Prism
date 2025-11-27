@@ -15,11 +15,13 @@ function App() {
 
   // Apply dark mode class to HTML
   useEffect(() => {
-    const html = document.documentElement;
-    if (darkMode) {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
+    if (typeof document !== 'undefined') {
+        const html = document.documentElement;
+        if (darkMode) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
     }
   }, [darkMode]);
 

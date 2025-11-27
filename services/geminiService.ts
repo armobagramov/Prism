@@ -3,7 +3,10 @@ import { Topic } from "../types";
 
 // Helper to safely get the client instance only when needed
 const getAiClient = () => {
-  const apiKey = process.env.API_KEY;
+  // Guard against undefined process.env in browser environments
+  const env = typeof process !== 'undefined' ? process.env : {};
+  const apiKey = env.API_KEY;
+  
   if (!apiKey) return null;
   return new GoogleGenAI({ apiKey });
 };
@@ -13,7 +16,7 @@ export const generateTopicSummary = async (topic: Topic): Promise<string> => {
   if (!ai) {
     console.warn("API Key missing. Please configure process.env.API_KEY.");
     // Return a mock response or empty string to prevent UI breakage
-    return "AI insights are unavailable in demo mode. Please configure an API Key to enable live summaries.";
+    return new Promise(resolve => setTimeout(() => resolve("AI insights are unavailable in demo mode. Please configure an API Key to enable live summaries."), 500));
   }
 
   try {

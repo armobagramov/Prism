@@ -26,7 +26,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
         onClick={onHomeClick}
       >
-        <PrismLogo className="w-10 h-10" />
+        <div className="w-10 h-10 flex-shrink-0">
+            <PrismLogo className="w-full h-full" />
+        </div>
         <span className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Prism</span>
       </div>
 
