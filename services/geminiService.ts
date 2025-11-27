@@ -1,15 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import { Topic, Argument } from "../types";
 
-// Note: In a real app, this key comes from process.env.API_KEY
-// The user instruction says to assume process.env.API_KEY is available.
-const apiKey = process.env.API_KEY || ''; 
-
-const ai = new GoogleGenAI({ apiKey });
+// Helper to get the client safely.
+// This prevents the app from crashing at startup if process.env.API_KEY is undefined.
+const getAiClient = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) return null;
+  return new GoogleGenAI({ apiKey });
+};
 
 export const generateTopicSummary = async (topic: Topic): Promise<string> => {
-  if (!apiKey) {
-    return "API Key missing. Please configure process.env.API_KEY to see AI summaries.";
+  const ai = getAiClient();
+  if (!ai) {
+    console.warn("API Key missing. AI features disabled.");
+    return "AI insights unavailable. Please configure your API_KEY.";
   }
 
   try {
@@ -36,7 +40,8 @@ export const generateTopicSummary = async (topic: Topic): Promise<string> => {
 };
 
 export const generateFactCheck = async (claim: string): Promise<string> => {
-  if (!apiKey) return "Fact check unavailable (No API Key).";
+  const ai = getAiClient();
+  if (!ai) return "Fact check unavailable (No API Key).";
 
   try {
     const prompt = `
@@ -60,7 +65,8 @@ export const generateFactCheck = async (claim: string): Promise<string> => {
 };
 
 export const generateSteelMan = async (argument: string): Promise<string> => {
-    if (!apiKey) return "Steel-man unavailable.";
+    const ai = getAiClient();
+    if (!ai) return "Steel-man unavailable.";
     try {
         const prompt = `
             Take the following argument and "steel-man" the opposing view. 
